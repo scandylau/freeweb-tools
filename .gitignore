@@ -1,0 +1,22 @@
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 临时文件
+*.log
+*.tmp
+.cache/
+
+# 项目元数据（不上传）
+.apps-builder/
+
+# 历史版本（可选上传，取消注释以排除）
+# history/

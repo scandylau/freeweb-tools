@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreeWeb Tools - Free Online Web Developer Tools | JSON Formatter, Base64, CSS Generator</title>
+<meta name="description" content="Free online web developer tools: JSON formatter, Base64 encoder/decoder, CSS shadow & gradient generator, Markdown editor. Fast, no signup required.">
+<meta name="keywords" content="free online tools, JSON formatter, Base64 encoder, CSS generator, gradient generator, markdown editor, web developer tools">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://freeweb.eu.org/">
+<meta property="og:title" content="FreeWeb Tools - Free Online Developer Tools">
+<meta property="og:description" content="Fast, free online tools for developers. JSON formatter, Base64, CSS generators and more.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://freeweb.eu.org/">
+<link rel="alternate" hreflang="en" href="https://freeweb.eu.org/">
+<link rel="alternate" hreflang="zh" href="https://freeweb.eu.org/?lang=zh">
+<link rel="alternate" hreflang="x-default" href="https://freeweb.eu.org/">
+<!-- SECTION: styles -->
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#2563eb;--primary-dark:#1d4ed8;--primary-light:#dbeafe;--bg:#f8fafc;--surface:#ffffff;--text:#1e293b;--text-secondary:#64748b;--border:#e2e8f0;--radius:12px;--shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);--shadow-lg:0 10px 15px -3px rgba(0,0,0,.08),0 4px 6px -4px rgba(0,0,0,.06);--font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;--mono:'SF Mono',SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;display:flex;flex-direction:column}
+a{color:var(--primary);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:1200px;margin:0 auto;padding:0 20px;width:100%}
+
+/* SECTION: header */
+.header{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
+.header .container{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:8px;font-size:1.25rem;font-weight:700;color:var(--text);text-decoration:none}
+.logo-icon{width:32px;height:32px;background:var(--primary);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px}
+.nav{display:flex;gap:4px;align-items:center}
+.nav a{padding:8px 14px;border-radius:8px;color:var(--text-secondary);font-size:.9rem;font-weight:500;transition:all .2s;text-decoration:none}
+.nav a:hover,.nav a.active{background:var(--primary-light);color:var(--primary)}
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:8px;color:var(--text)}
+@media(max-width:768px){
+.nav{display:none;position:absolute;top:64px;left:0;right:0;background:var(--surface);flex-direction:column;padding:12px;border-bottom:1px solid var(--border);box-shadow:var(--shadow-lg)}
+.nav.open{display:flex}
+.nav-toggle{display:block}
+}
+
+/* SECTION: hero */
+.hero{text-align:center;padding:60px 20px 40px;background:linear-gradient(135deg,var(--primary-light) 0%,#ede9fe 50%,#fce7f3 100%)}
+.hero h1{font-size:2.5rem;font-weight:800;margin-bottom:12px;background:linear-gradient(135deg,var(--primary),#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:1.15rem;color:var(--text-secondary);max-width:600px;margin:0 auto 24px}
+.hero-search{max-width:480px;margin:0 auto;position:relative}
+.hero-search input{width:100%;padding:14px 20px 14px 48px;border:2px solid var(--border);border-radius:50px;font-size:1rem;outline:none;transition:border-color .2s;background:var(--surface)}
+.hero-search input:focus{border-color:var(--primary)}
+.hero-search .search-icon{position:absolute;left:18px;top:50%;transform:translateY(-50%);color:var(--text-secondary)}
+@media(max-width:768px){.hero h1{font-size:1.75rem}.hero p{font-size:1rem}}
+
+/* SECTION: tools grid */
+.section{padding:48px 0}
+.section-title{font-size:1.5rem;font-weight:700;margin-bottom:8px}
+.section-desc{color:var(--text-secondary);margin-bottom:28px}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.tool-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;cursor:pointer;transition:all .2s;text-decoration:none;color:inherit;display:block}
+.tool-card:hover{border-color:var(--primary);box-shadow:var(--shadow-lg);transform:translateY(-2px);text-decoration:none}
+.tool-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:14px}
+.tool-card h3{font-size:1.1rem;font-weight:600;margin-bottom:6px}
+.tool-card p{font-size:.9rem;color:var(--text-secondary);line-height:1.5}
+.icon-json{background:#dbeafe;color:#2563eb}.icon-base64{background:#dcfce7;color:#16a34a}
+.icon-shadow{background:#fce7f3;color:#db2777}.icon-gradient{background:#ede9fe;color:#7c3aed}
+.icon-markdown{background:#ffedd5;color:#ea580c}.icon-html{background:#cffafe;color:#0891b2}
+
+/* SECTION: tool workspace */
+.tool-workspace{display:none;padding:32px 0}
+.tool-workspace.active{display:block}
+.tool-header{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.tool-header .back-btn{background:none;border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:.9rem;color:var(--text-secondary);display:flex;align-items:center;gap:4px;transition:all .2s}
+.tool-header .back-btn:hover{border-color:var(--primary);color:var(--primary)}
+.tool-header h2{font-size:1.5rem;font-weight:700}
+.tool-body{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;min-height:400px}
+.tool-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.btn{padding:10px 20px;border:none;border-radius:8px;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:var(--primary);color:#fff}.btn-primary:hover{background:var(--primary-dark)}
+.btn-secondary{background:var(--bg);color:var(--text);border:1px solid var(--border)}.btn-secondary:hover{border-color:var(--primary);color:var(--primary)}
+.btn-sm{padding:6px 14px;font-size:.85rem}
+textarea.tool-input,textarea.tool-output{width:100%;min-height:200px;padding:14px;border:1px solid var(--border);border-radius:8px;font-family:var(--mono);font-size:.9rem;resize:vertical;outline:none;transition:border-color .2s;line-height:1.6}
+textarea.tool-input:focus,textarea.tool-output:focus{border-color:var(--primary)}
+.split-pane{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:768px){.split-pane{grid-template-columns:1fr}}
+.pane-label{font-size:.85rem;font-weight:600;color:var(--text-secondary);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.status-msg{padding:10px 16px;border-radius:8px;font-size:.9rem;margin-top:12px;display:none}
+.status-msg.success{display:block;background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+.status-msg.error{display:block;background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+
+/* SECTION: CSS generators */
+.generator-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:768px){.generator-layout{grid-template-columns:1fr}}
+.control-group{margin-bottom:16px}
+.control-group label{display:block;font-size:.85rem;font-weight:600;color:var(--text-secondary);margin-bottom:6px}
+.control-group input[type="range"]{width:100%;accent-color:var(--primary)}
+.control-group input[type="color"]{width:50px;height:36px;border:1px solid var(--border);border-radius:6px;cursor:pointer;padding:2px}
+.control-group input[type="text"],.control-group select{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:.9rem;outline:none}
+.control-group input[type="text"]:focus,.control-group select:focus{border-color:var(--primary)}
+.control-row{display:flex;align-items:center;gap:10px}
+.control-row .range-val{min-width:40px;text-align:right;font-size:.85rem;font-weight:600;color:var(--text)}
+.preview-box{border:1px solid var(--border);border-radius:var(--radius);min-height:200px;display:flex;align-items:center;justify-content:center;background:var(--bg);position:relative;overflow:hidden}
+.preview-target{width:160px;height:160px;border-radius:12px;background:var(--primary)}
+.code-output{background:#1e293b;color:#e2e8f0;padding:16px;border-radius:8px;font-family:var(--mono);font-size:.85rem;line-height:1.6;overflow-x:auto;position:relative;margin-top:16px}
+.code-output .copy-btn{position:absolute;top:8px;right:8px;background:rgba(255,255,255,.15);border:none;color:#e2e8f0;padding:6px 12px;border-radius:6px;font-size:.8rem;cursor:pointer}
+.code-output .copy-btn:hover{background:rgba(255,255,255,.25)}
+.gradient-preview{width:100%;height:200px;border-radius:var(--radius)}
+.color-stops{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.color-stop{display:flex;align-items:center;gap:6px}
+
+/* SECTION: markdown editor */
+.md-toolbar{display:flex;gap:4px;padding:8px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.md-toolbar button{background:none;border:1px solid transparent;padding:4px 8px;border-radius:4px;cursor:pointer;font-size:.85rem;color:var(--text-secondary)}
+.md-toolbar button:hover{background:var(--bg);border-color:var(--border)}
+.md-preview{padding:16px;font-size:.95rem;line-height:1.8;overflow-y:auto;max-height:500px}
+.md-preview h1{font-size:1.8rem;margin:16px 0 8px;border-bottom:1px solid var(--border);padding-bottom:6px}
+.md-preview h2{font-size:1.4rem;margin:14px 0 6px}.md-preview h3{font-size:1.15rem;margin:12px 0 4px}
+.md-preview p{margin:8px 0}.md-preview code{background:var(--bg);padding:2px 6px;border-radius:4px;font-family:var(--mono);font-size:.85em}
+.md-preview pre{background:#1e293b;color:#e2e8f0;padding:14px;border-radius:8px;overflow-x:auto;margin:12px 0}
+.md-preview pre code{background:none;padding:0;color:inherit}
+.md-preview ul,.md-preview ol{padding-left:24px;margin:8px 0}.md-preview li{margin:4px 0}
+.md-preview blockquote{border-left:3px solid var(--primary);padding:8px 16px;margin:12px 0;background:var(--primary-light);border-radius:0 8px 8px 0}
+.md-preview a{color:var(--primary)}.md-preview img{max-width:100%;border-radius:8px}
+.md-preview hr{border:none;border-top:1px solid var(--border);margin:16px 0}
+.md-preview table{border-collapse:collapse;width:100%;margin:12px 0}
+.md-preview th,.md-preview td{border:1px solid var(--border);padding:8px 12px;text-align:left}
+.md-preview th{background:var(--bg);font-weight:600}
+
+/* SECTION: legal pages */
+.legal-page{display:none;padding:40px 0}
+.legal-page.active{display:block}
+.legal-content{max-width:800px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:40px}
+.legal-content h1{font-size:2rem;font-weight:700;margin-bottom:8px}
+.legal-content .updated{color:var(--text-secondary);font-size:.9rem;margin-bottom:28px}
+.legal-content h2{font-size:1.25rem;font-weight:600;margin:28px 0 10px;color:var(--text)}
+.legal-content p{margin:10px 0;color:var(--text-secondary);line-height:1.7}
+.legal-content ul{padding-left:24px;margin:10px 0}.legal-content li{margin:6px 0;color:var(--text-secondary);line-height:1.7}
+.legal-content a{color:var(--primary)}
+
+/* SECTION: contact form */
+.contact-form{max-width:600px;margin:0 auto}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:.9rem;font-weight:600;margin-bottom:6px}
+.form-group input,.form-group textarea{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:.95rem;outline:none;font-family:var(--font)}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--primary)}
+.form-group textarea{min-height:120px;resize:vertical}
+
+/* SECTION: footer */
+.footer{background:var(--surface);border-top:1px solid var(--border);padding:40px 0;margin-top:auto}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px}
+@media(max-width:768px){.footer-grid{grid-template-columns:1fr 1fr;gap:20px}}
+.footer h4{font-size:.9rem;font-weight:700;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.footer p,.footer a{font-size:.9rem;color:var(--text-secondary);line-height:1.8}
+.footer a{text-decoration:none;display:block}.footer a:hover{color:var(--primary)}
+.footer-bottom{border-top:1px solid var(--border);margin-top:28px;padding-top:20px;text-align:center;font-size:.85rem;color:var(--text-secondary)}
+
+/* SECTION: utilities */
+.hidden{display:none!important}
+.text-center{text-align:center}
+.mt-2{margin-top:8px}.mt-4{margin-top:16px}.mb-4{margin-bottom:16px}
+.fade-in{animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.toast{position:fixed;bottom:24px;right:24px;background:#1e293b;color:#fff;padding:12px 20px;border-radius:8px;font-size:.9rem;z-index:999;animation:slideUp .3s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<!-- SECTION: header -->
+<header class="header">
+<div class="container">
+<a href="#" class="logo" onclick="navigateTo('home');return false">
+<span class="logo-icon">FW</span>
+<span>FreeWeb Tools</span>
+</a>
+<button class="nav-toggle" onclick="document.querySelector('.nav').classList.toggle('open')" aria-label="Toggle navigation">
+<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+</button>
+<nav class="nav">
+<a href="#" onclick="navigateTo('home');return false" class="active" data-nav="home">Home</a>
+<a href="#" onclick="navigateTo('tool-json');return false" data-nav="tool-json">JSON Formatter</a>
+<a href="#" onclick="navigateTo('tool-base64');return false" data-nav="tool-base64">Base64</a>
+<a href="#" onclick="navigateTo('tool-shadow');return false" data-nav="tool-shadow">CSS Shadow</a>
+<a href="#" onclick="navigateTo('tool-gradient');return false" data-nav="tool-gradient">CSS Gradient</a>
+<a href="#" onclick="navigateTo('tool-markdown');return false" data-nav="tool-markdown">Markdown</a>
+</nav>
+</div>
+</header>
+
+<!-- SECTION: home -->
+<main id="page-home">
+<section class="hero">
+<div class="container">
+<h1>Free Online Developer Tools</h1>
+<p>Fast, reliable, and completely free. Format JSON, encode Base64, generate CSS shadows & gradients, and preview Markdown — all in your browser.</p>
+<div class="hero-search">
+<svg class="search-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+<input type="text" id="toolSearch" placeholder="Search tools... (e.g. JSON, Base64, CSS)" oninput="filterTools(this.value)">
+</div>
+</div>
+</section>
+<section class="section">
+<div class="container">
+<h2 class="section-title">All Tools</h2>
+<p class="section-desc">Click any tool to start using it instantly. No signup required.</p>
+<div class="tools-grid" id="toolsGrid">
+<a class="tool-card" onclick="navigateTo('tool-json');return false" data-tool="json formatter prettify minify">
+<div class="tool-icon icon-json">{ }</div>
+<h3>JSON Formatter</h3>
+<p>Format, validate, and minify JSON data. Pretty-print messy JSON with syntax highlighting.</p>
+</a>
+<a class="tool-card" onclick="navigateTo('tool-base64');return false" data-tool="base64 encode decode">
+<div class="tool-icon icon-base64">B64</div>
+<h3>Base64 Encoder/Decoder</h3>
+<p>Encode text to Base64 or decode Base64 strings. Supports UTF-8 and file-safe encoding.</p>
+</a>
+<a class="tool-card" onclick="navigateTo('tool-shadow');return false" data-tool="css box shadow generator">
+<div class="tool-icon icon-shadow">◐</div>
+<h3>CSS Box Shadow Generator</h3>
+<p>Visually create CSS box-shadow effects with real-time preview. Copy ready-to-use code.</p>
+</a>
+<a class="tool-card" onclick="navigateTo('tool-gradient');return false" data-tool="css gradient generator linear radial">
+<div class="tool-icon icon-gradient">◑</div>
+<h3>CSS Gradient Generator</h3>
+<p>Build beautiful linear and radial CSS gradients. Adjust colors, angles, and stops visually.</p>
+</a>
+<a class="tool-card" onclick="navigateTo('tool-markdown');return false" data-tool="markdown editor preview converter">
+<div class="tool-icon icon-markdown">M↓</div>
+<h3>Markdown Editor</h3>
+<p>Write Markdown with live preview. Supports headings, lists, code blocks, tables, and more.</p>
+</a>
+<a class="tool-card" onclick="navigateTo('tool-html');return false" data-tool="html entity encoder decoder escape">
+<div class="tool-icon icon-html">&lt;/&gt;</div>
+<h3>HTML Entity Encoder</h3>
+<p>Encode and decode HTML entities. Escape special characters for safe HTML rendering.</p>
+</a>
+</div>
+</div>
+</section>
+</main>
+
+<!-- SECTION: JSON Formatter -->
+<div class="tool-workspace" id="page-tool-json">
+<div class="container">
+<div class="tool-header">
+<button class="back-btn" onclick="navigateTo('home')">← Back</button>
+<h2>JSON Formatter & Validator</h2>
+</div>
+<div class="tool-body fade-in">
+<div class="tool-actions">
+<button class="btn btn-primary" data-primary-action onclick="formatJSON()">Format / Beautify</button>
+<button class="btn btn-secondary" onclick="minifyJSON()">Minify</button>
+<button class="btn btn-secondary" onclick="clearTool('json')">Clear</button>
+<button class="btn btn-secondary" onclick="loadSample('json')">Load Sample</button>
+</div>
+<div class="split-pane">
+<div><div class="pane-label">Input</div><textarea class="tool-input" id="jsonInput" placeholder='Paste your JSON here, e.g. {"name":"John","age":30}'></textarea></div>
+<div><div class="pane-label">Output</div><textarea class="tool-output" id="jsonOutput" readonly placeholder="Formatted JSON will appear here..."></textarea></div>
+</div>
+<div class="status-msg" id="jsonStatus"></div>
+</div>
+</div>
+</div>
+
+<!-- SECTION: Base64 -->
+<div class="tool-workspace" id="page-tool-base64">
+<div class="container">
+<div class="tool-header">
+<button class="back-btn" onclick="navigateTo('home')">← Back</button>
+<h2>Base64 Encoder / Decoder</h2>
+</div>
+<div class="tool-body fade-in">
+<div class="tool-actions">
+<button class="btn btn-primary" data-primary-action onclick="encodeBase64()">Encode</button>
+<button class="btn btn-primary" onclick="decodeBase64()">Decode</button>
+<button class="btn btn-secondary" onclick="clearTool('base64')">Clear</button>
+<button class="btn btn-secondary" onclick="loadSample('base64')">Load Sample</button>
+</div>
+<div class="split-pane">
+<div><div class="pane-label">Input</div><textarea class="tool-input" id="base64Input" placeholder="Enter text to encode, or Base64 string to decode..."></textarea></div>
+<div><div class="pane-label">Output</div><textarea class="tool-output" id="base64Output" readonly placeholder="Result will appear here..."></textarea></div>
+</div>
+<div class="status-msg" id="base64Status"></div>
+</div>
+</div>
+</div>
+
+<!-- SECTION: CSS Shadow Generator -->
+<div class="tool-workspace" id="page-tool-shadow">
+<div class="container">
+<div class="tool-header">
+<button class="back-btn" onclick="navigateTo('home')">← Back</button>
+<h2>CSS Box Shadow Generator</h2>
+</div>
+<div class="tool-body fade-in">
+<div class="generator-layout">
+<div class="shadow-controls">
+<div class="control-group"><label>Horizontal Offset</label><div class="control-row"><input type="range" id="shX" min="-50" max="50" value="4" oninput="updateShadow()"><span class="range-val" id="shXVal">4px</span></div></div>
+<div class="control-group"><label>Vertical Offset</label><div class="control-row"><input type="range" id="shY" min="-50" max="50" value="4" oninput="updateShadow()"><span class="range-val" id="shYVal">4px</span></div></div>
+<div class="control-group"><label>Blur Radius</label><div class="control-row"><input type="range" id="shBlur" min="0" max="100" value="12" oninput="updateShadow()"><span class="range-val" id="shBlurVal">12px</span></div></div>
+<div class="control-group"><label>Spread Radius</label><div class="control-row"><input type="range" id="shSpread" min="-50" max="50" value="0" oninput="updateShadow()"><span class="range-val" id="shSpreadVal">0px</span></div></div>
+<div class="control-group"><label>Color</label><input type="color" id="shColor" value="#000000" oninput="updateShadow()"></div>
+<div class="control-group"><label>Opacity</label><div class="control-row"><input type="range" id="shOpacity" min="0" max="100" value="15" oninput="updateShadow()"><span class="range-val" id="shOpacityVal">15%</span></div></div>
+<div class="control-group"><label><input type="checkbox" id="shInset" onchange="updateShadow()"> Inset Shadow</label></div>
+</div>
+<div>
+<div class="preview-box" id="shadowPreviewBox"><div class="preview-target" id="shadowPreviewTarget"></div></div>
+<div class="code-output"><button class="copy-btn" onclick="copyCode('shadowCode')">Copy</button><code id="shadowCode"></code></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- SECTION: CSS Gradient Generator -->
+<div class="tool-workspace" id="page-tool-gradient">
+<div class="container">
+<div class="tool-header">
+<button class="back-btn" onclick="navigateTo('home')">← Back</button>
+<h2>CSS Gradient Generator</h2>
+</div>
+<div class="tool-body fade-in">
+<div class="generator-layout">
+<div class="gradient-controls">
+<div class="control-group"><label>Type</label><select id="gradType" onchange="updateGradient()"><option value="linear">Linear</option><option value="radial">Radial</option></select></div>
+<div class="control-group" id="gradAngleGroup"><label>Angle</label><div class="control-row"><input type="range" id="gradAngle" min="0" max="360" value="135" oninput="updateGradient()"><span class="range-val" id="gradAngleVal">135°</span></div></div>
+<div class="control-group"><label>Color Stops</label>
+<div class="color-stops" id="colorStops">
+<div class="color-stop"><input type="color" id="gradC1" value="#2563eb" oninput="updateGradient()"><span>Start</span></div>
+<div class="color-stop"><input type="color" id="gradC2" value="#7c3aed" oninput="updateGradient()"><span>End</span></div>
+</div>
+<div class="mt-2"><button class="btn btn-sm btn-secondary" onclick="addColorStop()">+ Add Stop</button></div>
+</div>
+<div class="control-group"><label>Presets</label>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<button class="btn btn-sm btn-secondary" onclick="applyGradientPreset('#667eea','#764ba2',135)" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none">Purple</button>
+<button class="btn btn-sm btn-secondary" onclick="applyGradientPreset('#f093fb','#f5576c',135)" style="background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;border:none">Pink</button>
+<button class="btn btn-sm btn-secondary" onclick="applyGradientPreset('#4facfe','#00f2fe',135)" style="background:linear-gradient(135deg,#4facfe,#00f2fe);color:#fff;border:none">Blue</button>
+<button class="btn btn-sm btn-secondary" onclick="applyGradientPreset('#43e97b','#38f9d7',135)" style="background:linear-gradient(135deg,#43e97b,#38f9d7);color:#fff;border:none">Green</button>
+<button class="btn btn-sm btn-secondary" onclick="applyGradientPreset('#fa709a','#fee140',135)" style="background:linear-gradient(135deg,#fa709a,#fee140);color:#fff;border:none">Sunset</button>
+</div>
+</div>
+</div>
+<div>
+<div class="gradient-preview preview-box" id="gradientPreview"></div>
+<div class="code-output"><button class="copy-btn" onclick="copyCode('gradientCode')">Copy</button><code id="gradientCode"></code></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- SECTION: Markdown Editor -->
+<div class="tool-workspace" id="page-tool-markdown">
+<div class="container">
+<div class="tool-header">
+<button class="back-btn" onclick="navigateTo('home')">← Back</button>
+<h2>Markdown Editor & Preview</h2>
+</div>
+<div class="tool-body fade-in">
+<div class="tool-actions">
+<button class="btn btn-secondary btn-sm" onclick="insertMd('**','bold')">B</button>
+<button class="btn btn-secondary btn-sm" onclick="insertMd('*','italic')"><em>I</em></button>
+<button class="btn btn-secondary btn-sm" onclick="insertMd('# ','heading')">H1</button>
+<button class="btn btn-secondary btn-sm" onclick="insertMd('## ','heading')">H2</button>
+<button class="btn btn-secondary btn-sm" onclick="insertMd('- ','list')">List</button>
+<button class="btn btn-secondary btn-sm" onclick="insertMd('[link](url)','link')">Link</button>
+<button class="btn btn-secondary btn-sm" onclick="insertMd('`','code')">Code</button>
+<button class="btn btn-secondary btn-sm" onclick="insertMd('> ','quote')">Quote</button>
+<button class="btn btn-secondary" onclick="loadSample('markdown')">Load Sample</button>
+<button class="btn btn-secondary" onclick="clearTool('markdown')">Clear</button>
+</div>
+<div class="split-pane">
+<div>
+<div class="pane-label">Editor</div>
+<textarea class="tool-input" id="markdownInput" placeholder="Write your Markdown here..." oninput="renderMarkdown()" style="min-height:400px"></textarea>
+</div>
+<div>
+<div class="pane-label">Preview</div>
+<div class="md-preview tool-output" id="markdownPreview" style="min-height:400px;border:1px solid var(--border);border-radius:8px;background:#fff"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- SECTION: HTML Entity Encoder -->
+<div class="tool-workspace" id="page-tool-html">
+<div class="container">
+<div class="tool-header">
+<button class="back-btn" onclick="navigateTo('home')">← Back</button>
+<h2>HTML Entity Encoder / Decoder</h2>
+</div>
+<div class="tool-body fade-in">
+<div class="tool-actions">
+<button class="btn btn-primary" data-primary-action onclick="encodeHtml()">Encode</button>
+<button class="btn btn-primary" onclick="decodeHtml()">Decode</button>
+<button class="btn btn-secondary" onclick="clearTool('html')">Clear</button>
+</div>
+<div class="split-pane">
+<div><div class="pane-label">Input</div><textarea class="tool-input" id="htmlInput" placeholder='Enter HTML to encode, e.g. <div class="test">Hello</div>'></textarea></div>
+<div><div class="pane-label">Output</div><textarea class="tool-output" id="htmlOutput" readonly placeholder="Result will appear here..."></textarea></div>
+</div>
+<div class="status-msg" id="htmlStatus"></div>
+</div>
+</div>
+</div>
+
+<!-- SECTION: About Us -->
+<div class="legal-page" id="page-about">
+<div class="container">
+<div class="tool-header">
+<button class="back-btn" onclick="navigateTo('home')">← Back</button>
+<h2>About Us</h2>
+</div>
+<div class="legal-content fade-in">
+<h1>About FreeWeb Tools</h1>
+<p class="updated">Empowering developers with free, fast, and reliable online tools.</p>
+<h2>Our Mission</h2>
+<p>FreeWeb Tools was created with a simple mission: to provide developers, designers, and content creators with high-quality, free online tools that just work. We believe that essential development utilities should be accessible to everyone, without paywalls, signups, or watermarks.</p>
+<h2>What We Offer</h2>
+<p>We provide a growing collection of web-based tools designed to streamline your workflow:</p>
+<ul>
+<li><strong>JSON Formatter</strong> — Format, validate, and minify JSON data instantly</li>
+<li><strong>Base64 Encoder/Decoder</strong> — Convert text and data to and from Base64 encoding</li>
+<li><strong>CSS Box Shadow Generator</strong> — Create beautiful shadow effects visually</li>
+<li><strong>CSS Gradient Generator</strong> — Build stunning gradients with real-time preview</li>
+<li><strong>Markdown Editor</strong> — Write and preview Markdown in real time</li>
+<li><strong>HTML Entity Encoder</strong> — Encode and decode HTML special characters</li>
+</ul>
+<h2>Our Values</h2>
+<p><strong>Privacy First:</strong> All processing happens in your browser. We never send your data to any server. Your code, text, and data stay on your machine.</p>
+<p><strong>Speed & Simplicity:</strong> Our tools are designed to be fast and distraction-free. No ads blocking your workflow, no unnecessary loading screens.</p>
+<p><strong>Always Free:</strong> Core tools will always be free to use. We sustain our operations through minimal, non-intrusive advertising.</p>
+<h2>Contact</h2>
+<p>Have feedback, suggestions, or found a bug? We'd love to hear from you. Visit our <a href="#" onclick="navigateTo('contact');return false">Contact page</a> to get in touch.</p>
+</div>
+</div>
+</div>
+
+<!-- SECTION: Contact -->
+<div class="legal-page" id="page-contact">
+<div class="container">
+<div class="tool-header">
+<button class="back-btn" onclick="navigateTo('home')">← Back</button>
+<h2>Contact Us</h2>
+</div>
+<div class="legal-content fade-in">
+<h1>Contact Us</h1>
+<p class="updated">We'd love to hear from you. Send us a message below.</p>
+<div class="contact-form">
+<div class="form-group"><label for="contactName">Name</label><input type="text" id="contactName" placeholder="Your name"></div>
+<div class="form-group"><label for="contactEmail">Email</label><input type="email" id="contactEmail" placeholder="your@email.com"></div>
+<div class="form-group"><label for="contactSubject">Subject</label><input type="text" id="contactSubject" placeholder="What's this about?"></div>
+<div class="form-group"><label for="contactMessage">Message</label><textarea id="contactMessage" placeholder="Your message..."></textarea></div>
+<button class="btn btn-primary" onclick="submitContact()">Send Message</button>
+<div class="status-msg" id="contactStatus"></div>
+</div>
+<div style="margin-top:32px">
+<h2>Other Ways to Reach Us</h2>
+<p><strong>Email:</strong> contact@freeweb.eu.org</p>
+<p><strong>Response Time:</strong> We typically respond within 24-48 hours.</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- SECTION: Privacy Policy -->
+<div class="legal-page" id="page-privacy">
+<div class="container">
+<div class="tool-header">
+<button class="back-btn" onclick="navigateTo('home')">← Back</button>
+<h2>Privacy Policy</h2>
+</div>
+<div class="legal-content fade-in">
+<h1>Privacy Policy</h1>
+<p class="updated">Last updated: September 12, 2026</p>
+<p>FreeWeb Tools ("we", "us", or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard information when you visit our website freeweb.eu.org (the "Site").</p>
+<h2>1. Information We Collect</h2>
+<p><strong>Information you provide:</strong> When you use our Contact form, you may provide your name, email address, and message content. We use this solely to respond to your inquiry.</p>
+<p><strong>Automatically collected information:</strong> When you visit our Site, our servers and third-party analytics services may automatically collect certain information, including your IP address, browser type, operating system, referring URLs, pages visited, and the dates/times of your visits.</p>
+<h2>2. Cookies and Tracking Technologies</h2>
+<p>We use cookies and similar tracking technologies to improve your experience on our Site. These include:</p>
+<ul>
+<li><strong>Essential Cookies:</strong> Required for the Site to function properly (e.g., session management).</li>
+<li><strong>Analytics Cookies:</strong> Help us understand how visitors interact with our Site (e.g., Google Analytics).</li>
+<li><strong>Advertising Cookies:</strong> Used by our advertising partners (e.g., Google AdSense) to serve relevant ads. Google may use cookies like DART to show ads based on your visit to our Site and other sites on the Internet.</li>
+</ul>
+<p>You can choose to disable cookies through your browser settings. However, this may affect your experience on our Site.</p>
+<h2>3. How We Use Your Information</h2>
+<ul>
+<li>To provide, operate, and maintain our tools and services</li>
+<li>To respond to your inquiries and provide customer support</li>
+<li>To improve our Site and develop new features</li>
+<li>To analyze usage patterns and optimize user experience</li>
+<li>To display relevant advertisements through our ad partners</li>
+</ul>
+<h2>4. Third-Party Services</h2>
+<p>We may use third-party services such as Google AdSense and Google Analytics. These services have their own privacy policies. We encourage you to review them:</p>
+<ul>
+<li>Google Privacy Policy: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a></li>
+<li>Google AdSense: <a href="https://support.google.com/adsense/answer/48182" target="_blank" rel="noopener">AdSense Privacy Policy</a></li>
+</ul>
+<h2>5. Data Security</h2>
+<p>All tool processing (JSON formatting, Base64 encoding, CSS generation, etc.) happens entirely in your browser. Your data is never transmitted to our servers during tool usage. We implement appropriate security measures to protect any information you provide through our contact form.</p>
+<h2>6. Children's Privacy</h2>
+<p>Our Site is not directed to children under the age of 13. We do not knowingly collect personal information from children under 13.</p>
+<h2>7. Changes to This Policy</h2>
+<p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page with an updated "Last updated" date.</p>
+<h2>8. Contact Us</h2>
+<p>If you have questions about this Privacy Policy, please <a href="#" onclick="navigateTo('contact');return false">contact us</a>.</p>
+</div>
+</div>
+</div>
+
+<!-- SECTION: Terms of Service -->
+<div class="legal-page" id="page-terms">
+<div class="container">
+<div class="tool-header">
+<button class="back-btn" onclick="navigateTo('home')">← Back</button>
+<h2>Terms of Service</h2>
+</div>
+<div class="legal-content fade-in">
+<h1>Terms of Service</h1>
+<p class="updated">Last updated: September 12, 2026</p>
+<p>Welcome to FreeWeb Tools. By accessing or using our website at freeweb.eu.org (the "Site"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the Site.</p>
+<h2>1. Use of the Site</h2>
+<p>You may use our tools and content for personal and commercial purposes, provided that you do not:</p>
+<ul>
+<li>Use the Site for any unlawful purpose or in violation of any applicable laws</li>
+<li>Attempt to interfere with the proper functioning of the Site</li>
+<li>Scrape, crawl, or use automated tools to access the Site without permission</li>
+<li>Misrepresent your affiliation with any person or entity</li>
+</ul>
+<h2>2. Intellectual Property</h2>
+<p>The Site's original content, features, and functionality are owned by FreeWeb Tools and are protected by international copyright and other laws. The tools provided on this Site may be used freely; however, you may not copy, modify, or distribute the Site's code or design without written permission.</p>
+<h2>3. Disclaimer of Warranties</h2>
+<p>The Site and all tools are provided "as is" and "as available" without warranties of any kind, either express or implied. We do not guarantee that the Site will be uninterrupted, error-free, or free of viruses or other harmful components.</p>
+<h2>4. Limitation of Liability</h2>
+<p>In no event shall FreeWeb Tools, its owners, or contributors be liable for any indirect, incidental, special, consequential, or punitive damages arising out of your use of or inability to use the Site.</p>
+<h2>5. Third-Party Links</h2>
+<p>Our Site may contain links to third-party websites. We are not responsible for the content or privacy practices of those sites. We encourage you to review their terms and privacy policies.</p>
+<h2>6. Advertising</h2>
+<p>We display third-party advertisements through services like Google AdSense. These ads may use cookies and tracking technologies. By using our Site, you consent to the display of such advertisements.</p>
+<h2>7. Modifications</h2>
+<p>We reserve the right to modify these Terms at any time. Changes take effect immediately upon posting. Continued use of the Site constitutes acceptance of the modified Terms.</p>
+<h2>8. Contact</h2>
+<p>For questions about these Terms, please <a href="#" onclick="navigateTo('contact');return false">contact us</a>.</p>
+</div>
+</div>
+</div>
+
+<!-- SECTION: Disclaimer -->
+<div class="legal-page" id="page-disclaimer">
+<div class="container">
+<div class="tool-header">
+<button class="back-btn" onclick="navigateTo('home')">← Back</button>
+<h2>Disclaimer</h2>
+</div>
+<div class="legal-content fade-in">
+<h1>Disclaimer</h1>
+<p class="updated">Last updated: September 12, 2026</p>
+<p>The information provided by FreeWeb Tools ("we", "us", or "our") on freeweb.eu.org (the "Site") is for general informational and utility purposes only. All tools on this Site process data locally within your browser.</p>
+<h2>No Professional Advice</h2>
+<p>The tools and content on this Site are not intended as a substitute for professional advice. Always seek the guidance of qualified professionals for specific technical, legal, or financial matters.</p>
+<h2>Accuracy of Tools</h2>
+<p>While we strive to ensure our tools function correctly and produce accurate results, we make no representations or warranties of any kind about the completeness, accuracy, reliability, or suitability of the tools or the information they produce. Use them at your own discretion.</p>
+<h2>External Links</h2>
+<p>The Site may contain links to external websites that are not provided or maintained by us. We do not guarantee the accuracy, relevance, or completeness of any information on these external websites.</p>
+<h2>Use at Your Own Risk</h2>
+<p>Your use of the Site and its tools is entirely at your own risk. We shall not be liable for any damages arising from the use of our Site or tools, including but not limited to data loss, incorrect results, or service interruptions.</p>
+</div>
+</div>
+</div>
+
+<!-- SECTION: footer -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div>
+<h4>FreeWeb Tools</h4>
+<p>Free online developer tools. Fast, reliable, and privacy-friendly. All processing happens in your browser — your data never leaves your machine.</p>
+</div>
+<div>
+<h4>Tools</h4>
+<a href="#" onclick="navigateTo('tool-json');return false">JSON Formatter</a>
+<a href="#" onclick="navigateTo('tool-base64');return false">Base64 Encoder</a>
+<a href="#" onclick="navigateTo('tool-shadow');return false">CSS Shadow Generator</a>
+<a href="#" onclick="navigateTo('tool-gradient');return false">CSS Gradient Generator</a>
+<a href="#" onclick="navigateTo('tool-markdown');return false">Markdown Editor</a>
+<a href="#" onclick="navigateTo('tool-html');return false">HTML Entity Encoder</a>
+</div>
+<div>
+<h4>Company</h4>
+<a href="#" onclick="navigateTo('about');return false">About Us</a>
+<a href="#" onclick="navigateTo('contact');return false">Contact</a>
+</div>
+<div>
+<h4>Legal</h4>
+<a href="#" onclick="navigateTo('privacy');return false">Privacy Policy</a>
+<a href="#" onclick="navigateTo('terms');return false">Terms of Service</a>
+<a href="#" onclick="navigateTo('disclaimer');return false">Disclaimer</a>
+</div>
+</div>
+<div class="footer-bottom">
+<p>&copy; 2026 FreeWeb Tools. All rights reserved. | freeweb.eu.org</p>
+</div>
+</div>
+</footer>
+
+<!-- SECTION: javascript -->
+<script>
+/* SECTION: navigation */
+const pages = ['home','tool-json','tool-base64','tool-shadow','tool-gradient','tool-markdown','tool-html','about','contact','privacy','terms','disclaimer'];
+const toolPages = ['tool-json','tool-base64','tool-shadow','tool-gradient','tool-markdown','tool-html'];
+const legalPages = ['about','contact','privacy','terms','disclaimer'];
+
+function navigateTo(page) {
+  document.getElementById('page-home').style.display = 'none';
+  toolPages.forEach(t => { const el = document.getElementById('page-' + t); if (el) el.classList.remove('active'); });
+  legalPages.forEach(l => { const el = document.getElementById('page-' + l); if (el) el.classList.remove('active'); });
+  if (page === 'home') {
+    document.getElementById('page-home').style.display = 'block';
+  } else if (toolPages.includes(page)) {
+    const el = document.getElementById('page-' + page);
+    if (el) el.classList.add('active');
+  } else if (legalPages.includes(page)) {
+    const el = document.getElementById('page-' + page);
+    if (el) el.classList.add('active');
+  }
+  document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
+  const navLink = document.querySelector(`.nav a[data-nav="${page}"]`);
+  if (navLink) navLink.classList.add('active');
+  document.querySelector('.nav').classList.remove('open');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (page === 'tool-shadow') updateShadow();
+  if (page === 'tool-gradient') updateGradient();
+  if (page === 'tool-markdown' && !document.getElementById('markdownInput').value) loadSample('markdown');
+  // Update page title for SEO
+  const titles = {
+    'home': 'FreeWeb Tools - Free Online Web Developer Tools',
+    'tool-json': 'JSON Formatter & Validator - Free Online Tool | FreeWeb',
+    'tool-base64': 'Base64 Encoder & Decoder - Free Online Tool | FreeWeb',
+    'tool-shadow': 'CSS Box Shadow Generator - Free Online Tool | FreeWeb',
+    'tool-gradient': 'CSS Gradient Generator - Free Online Tool | FreeWeb',
+    'tool-markdown': 'Markdown Editor with Live Preview - Free Online Tool | FreeWeb',
+    'tool-html': 'HTML Entity Encoder & Decoder - Free Online Tool | FreeWeb',
+    'about': 'About Us - FreeWeb Tools',
+    'contact': 'Contact Us - FreeWeb Tools',
+    'privacy': 'Privacy Policy - FreeWeb Tools',
+    'terms': 'Terms of Service - FreeWeb Tools',
+    'disclaimer': 'Disclaimer - FreeWeb Tools'
+  };
+  if (titles[page]) document.title = titles[page];
+  // Update URL hash
+  history.pushState(null, '', '#' + page);
+}
+
+/* SECTION: tool search */
+function filterTools(query) {
+  const cards = document.querySelectorAll('#toolsGrid .tool-card');
+  const q = query.toLowerCase().trim();
+  cards.forEach(card => {
+    const text = (card.dataset.tool + ' ' + card.textContent).toLowerCase();
+    card.style.display = !q || text.includes(q) ? '' : 'none';
+  });
+}
+
+/* SECTION: JSON formatter */
+function formatJSON() {
+  const input = document.getElementById('jsonInput').value.trim();
+  const output = document.getElementById('jsonOutput');
+  const status = document.getElementById('jsonStatus');
+  if (!input) { showStatus(status, 'Please enter JSON data to format.', 'error'); return; }
+  try {
+    const parsed = JSON.parse(input);
+    output.value = JSON.stringify(parsed, null, 2);
+    showStatus(status, '✓ JSON formatted successfully. Valid JSON detected.', 'success');
+  } catch (e) {
+    showStatus(status, '✗ Invalid JSON: ' + e.message, 'error');
+    output.value = '';
+  }
+}
+
+function minifyJSON() {
+  const input = document.getElementById('jsonInput').value.trim();
+  const output = document.getElementById('jsonOutput');
+  const status = document.getElementById('jsonStatus');
+  if (!input) { showStatus(status, 'Please enter JSON data to minify.', 'error'); return; }
+  try {
+    const parsed = JSON.parse(input);
+    output.value = JSON.stringify(parsed);
+    showStatus(status, '✓ JSON minified. Size: ' + output.value.length + ' bytes.', 'success');
+  } catch (e) {
+    showStatus(status, '✗ Invalid JSON: ' + e.message, 'error');
+    output.value = '';
+  }
+}
+
+/* SECTION: Base64 */
+function encodeBase64() {
+  const input = document.getElementById('base64Input').value;
+  const output = document.getElementById('base64Output');
+  const status = document.getElementById('base64Status');
+  if (!input) { showStatus(status, 'Please enter text to encode.', 'error'); return; }
+  try {
+    output.value = btoa(unescape(encodeURIComponent(input)));
+    showStatus(status, '✓ Text encoded to Base64 successfully.', 'success');
+  } catch (e) {
+    showStatus(status, '✗ Encoding error: ' + e.message, 'error');
+  }
+}
+
+function decodeBase64() {
+  const input = document.getElementById('base64Input').value.trim();
+  const output = document.getElementById('base64Output');
+  const status = document.getElementById('base64Status');
+  if (!input) { showStatus(status, 'Please enter a Base64 string to decode.', 'error'); return; }
+  try {
+    output.value = decodeURIComponent(escape(atob(input)));
+    showStatus(status, '✓ Base64 decoded successfully.', 'success');
+  } catch (e) {
+    showStatus(status, '✗ Invalid Base64 string: ' + e.message, 'error');
+  }
+}
+
+/* SECTION: CSS Shadow Generator */
+function updateShadow() {
+  const x = document.getElementById('shX').value;
+  const y = document.getElementById('shY').value;
+  const blur = document.getElementById('shBlur').value;
+  const spread = document.getElementById('shSpread').value;
+  const color = document.getElementById('shColor').value;
+  const opacity = document.getElementById('shOpacity').value;
+  const inset = document.getElementById('shInset').checked;
+  document.getElementById('shXVal').textContent = x + 'px';
+  document.getElementById('shYVal').textContent = y + 'px';
+  document.getElementById('shBlurVal').textContent = blur + 'px';
+  document.getElementById('shSpreadVal').textContent = spread + 'px';
+  document.getElementById('shOpacityVal').textContent = opacity + '%';
+  const r = parseInt(color.slice(1, 3), 16);
+  const g = parseInt(color.slice(3, 5), 16);
+  const b = parseInt(color.slice(5, 7), 16);
+  const rgba = `rgba(${r}, ${g}, ${b}, ${(opacity / 100).toFixed(2)})`;
+  const shadowValue = (inset ? 'inset ' : '') + `${x}px ${y}px ${blur}px ${spread}px ${rgba}`;
+  document.getElementById('shadowPreviewTarget').style.boxShadow = shadowValue;
+  document.getElementById('shadowCode').textContent = `box-shadow: ${shadowValue};`;
+}
+
+/* SECTION: CSS Gradient Generator */
+let gradientStops = [
+  { color: '#2563eb', position: 0 },
+  { color: '#7c3aed', position: 100 }
+];
+
+function updateGradient() {
+  const type = document.getElementById('gradType').value;
+  const angle = document.getElementById('gradAngle').value;
+  document.getElementById('gradAngleVal').textContent = angle + '°';
+  document.getElementById('gradAngleGroup').style.display = type === 'linear' ? '' : 'none';
+  // Update color stop values
+  gradientStops.forEach((stop, i) => {
+    const el = document.getElementById('gradC' + (i + 1));
+    if (el) stop.color = el.value;
+  });
+  const stopsStr = gradientStops.map((s, i) => {
+    const pos = Math.round((i / (gradientStops.length - 1)) * 100);
+    return s.color + ' ' + pos + '%';
+  }).join(', ');
+  let cssValue;
+  if (type === 'linear') {
+    cssValue = `linear-gradient(${angle}deg, ${stopsStr})`;
+  } else {
+    cssValue = `radial-gradient(circle, ${stopsStr})`;
+  }
+  document.getElementById('gradientPreview').style.background = cssValue;
+  document.getElementById('gradientCode').textContent = `background: ${cssValue};`;
+}
+
+function addColorStop() {
+  if (gradientStops.length >= 5) { showToast('Maximum 5 color stops'); return; }
+  gradientStops.push({ color: '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'), position: 50 });
+  rebuildColorStopInputs();
+  updateGradient();
+}
+
+function rebuildColorStopInputs() {
+  const container = document.getElementById('colorStops');
+  container.innerHTML = '';
+  gradientStops.forEach((stop, i) => {
+    const div = document.createElement('div');
+    div.className = 'color-stop';
+    div.innerHTML = `<input type="color" id="gradC${i + 1}" value="${stop.color}" oninput="updateGradient()"><span>${i === 0 ? 'Start' : i === gradientStops.length - 1 ? 'End' : 'Stop ' + i}</span>`;
+    container.appendChild(div);
+  });
+}
+
+function applyGradientPreset(c1, c2, angle) {
+  gradientStops = [{ color: c1, position: 0 }, { color: c2, position: 100 }];
+  document.getElementById('gradAngle').value = angle;
+  rebuildColorStopInputs();
+  updateGradient();
+}
+
+/* SECTION: Markdown Editor */
+function renderMarkdown() {
+  const input = document.getElementById('markdownInput').value;
+  const preview = document.getElementById('markdownPreview');
+  preview.innerHTML = parseMarkdown(input);
+}
+
+function parseMarkdown(md) {
+  let html = md;
+  // Code blocks
+  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code class="lang-$1">$2</code></pre>');
+  // Inline code
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // Headers
+  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+  // Horizontal rules
+  html = html.replace(/^---$/gm, '<hr>');
+  // Bold and italic
+  html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  // Images
+  html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
+  // Links
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  // Blockquotes
+  html = html.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+  // Unordered lists
+  html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+  html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+  // Ordered lists
+  html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+  // Paragraphs
+  html = html.replace(/^(?!<[huplob]|<li|<hr|<pre|<code|<blockquote)(.+)$/gm, '<p>$1</p>');
+  // Clean up empty paragraphs
+  html = html.replace(/<p>\s*<\/p>/g, '');
+  return html;
+}
+
+function insertMd(prefix, type) {
+  const ta = document.getElementById('markdownInput');
+  const start = ta.selectionStart;
+  const end = ta.selectionEnd;
+  const text = ta.value;
+  const selected = text.substring(start, end) || (type === 'bold' ? 'bold text' : type === 'italic' ? 'italic text' : type === 'heading' ? 'Heading' : type === 'list' ? 'List item' : type === 'link' ? 'link text' : type === 'code' ? 'code' : type === 'quote' ? 'quote text' : '');
+  if (type === 'code' && !prefix.endsWith('(')) {
+    ta.value = text.substring(0, start) + '`' + selected + '`' + text.substring(end);
+  } else if (type === 'link') {
+    ta.value = text.substring(0, start) + '[' + selected + '](url)' + text.substring(end);
+  } else {
+    ta.value = text.substring(0, start) + prefix + selected + text.substring(end);
+  }
+  ta.focus();
+  renderMarkdown();
+}
+
+/* SECTION: HTML Entity Encoder */
+function encodeHtml() {
+  const input = document.getElementById('htmlInput').value;
+  const output = document.getElementById('htmlOutput');
+  const status = document.getElementById('htmlStatus');
+  if (!input) { showStatus(status, 'Please enter HTML to encode.', 'error'); return; }
+  const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+  output.value = input.replace(/[&<>"']/g, m => map[m]);
+  showStatus(status, '✓ HTML encoded successfully.', 'success');
+}
+
+function decodeHtml() {
+  const input = document.getElementById('htmlInput').value;
+  const output = document.getElementById('htmlOutput');
+  const status = document.getElementById('htmlStatus');
+  if (!input) { showStatus(status, 'Please enter encoded HTML to decode.', 'error'); return; }
+  const textarea = document.createElement('textarea');
+  textarea.innerHTML = input;
+  output.value = textarea.value;
+  showStatus(status, '✓ HTML decoded successfully.', 'success');
+}
+
+/* SECTION: utilities */
+function showStatus(el, msg, type) {
+  el.textContent = msg;
+  el.className = 'status-msg ' + type;
+  if (type === 'success') setTimeout(() => { el.className = 'status-msg'; }, 4000);
+}
+
+function clearTool(tool) {
+  const map = {
+    json: ['jsonInput', 'jsonOutput', 'jsonStatus'],
+    base64: ['base64Input', 'base64Output', 'base64Status'],
+    markdown: ['markdownInput', 'markdownPreview'],
+    html: ['htmlInput', 'htmlOutput', 'htmlStatus']
+  };
+  if (map[tool]) map[tool].forEach(id => { const el = document.getElementById(id); if (el) el.value ? el.value = '' : el.innerHTML = ''; });
+}
+
+function loadSample(tool) {
+  if (tool === 'json') {
+    document.getElementById('jsonInput').value = '{"name":"John Doe","age":30,"email":"john@example.com","hobbies":["reading","coding","hiking"],"address":{"street":"123 Main St","city":"San Francisco","state":"CA","zip":"94102"},"isActive":true,"scores":[95,87,92,78]}';
+  } else if (tool === 'base64') {
+    document.getElementById('base64Input').value = 'Hello, World! This is a sample text for Base64 encoding.';
+  } else if (tool === 'markdown') {
+    document.getElementById('markdownInput').value = `# Welcome to Markdown Editor
+
+## Getting Started
+
+This is a **live preview** Markdown editor. Type in the left panel and see the result instantly on the right.
+
+### Features
+
+- **Bold** and *italic* text
+- Headings (H1, H2, H3)
+- Ordered and unordered lists
+- \`Inline code\` and code blocks
+- [Links](https://example.com)
+- Blockquotes and horizontal rules
+
+### Code Example
+
+\`\`\`javascript
+function greet(name) {
+  return "Hello, " + name + "!";
+}
+console.log(greet("World"));
+\`\`\`
+
+> Markdown is a lightweight markup language that you can use to add formatting elements to plaintext documents.
+
+---
+
+Happy writing!`;
+    renderMarkdown();
+  }
+}
+
+function copyCode(id) {
+  const code = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(code).then(() => showToast('Copied to clipboard!')).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = code;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('Copied to clipboard!');
+  });
+}
+
+function showToast(msg) {
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2500);
+}
+
+function submitContact() {
+  const name = document.getElementById('contactName').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  const message = document.getElementById('contactMessage').value.trim();
+  const status = document.getElementById('contactStatus');
+  if (!name || !email || !message) { showStatus(status, 'Please fill in all required fields.', 'error'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showStatus(status, 'Please enter a valid email address.', 'error'); return; }
+  showStatus(status, '✓ Message sent successfully! We\'ll get back to you within 24-48 hours.', 'success');
+  document.getElementById('contactName').value = '';
+  document.getElementById('contactEmail').value = '';
+  document.getElementById('contactSubject').value = '';
+  document.getElementById('contactMessage').value = '';
+}
+
+/* SECTION: init */
+window.addEventListener('DOMContentLoaded', () => {
+  const hash = location.hash.replace('#', '');
+  if (hash && pages.includes(hash)) navigateTo(hash);
+  updateShadow();
+  updateGradient();
+});
+window.addEventListener('popstate', () => {
+  const hash = location.hash.replace('#', '') || 'home';
+  if (pages.includes(hash)) navigateTo(hash);
+});
+</script>
+</body>
+</html>
