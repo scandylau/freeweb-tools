@@ -1,0 +1,11 @@
+{
+  "name": "freeweb-tools",
+  "compatibility_date": "2026-09-15",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": ".",
+    "exclude": [".git/**", "history/**", ".wrangler/**", ".apps-builder/**", "*.jsonc"]
+  }
+}
