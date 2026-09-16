@@ -19,7 +19,7 @@
 
 ```
 freeweb-tools/
-├── freeweb-online-tools.html  # 主应用文件
+├── index.html                 # 主应用文件
 ├── sitemap.xml                # 站点地图
 ├── robots.txt                 # 搜索引擎爬虫指引
 ├── _headers                   # Cloudflare Pages 安全头
@@ -50,7 +50,7 @@ freeweb-tools/
 ## 📝 开发流程
 
 ### 添加新工具
-1. 在 `freeweb-online-tools.html` 中添加新的工具区域
+1. 在 `index.html` 中添加新的工具区域
 2. 在导航栏添加工具链接
 3. 实现工具功能逻辑
 4. 在 sitemap.xml 中添加新 URL
