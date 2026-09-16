@@ -159,6 +159,13 @@ textarea.tool-input:focus,textarea.tool-output:focus{border-color:var(--primary)
 .toast{position:fixed;bottom:24px;right:24px;background:#1e293b;color:#fff;padding:12px 20px;border-radius:8px;font-size:.9rem;z-index:999;animation:slideUp .3s ease}
 @keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
+/* SECTION: language switcher */
+.lang-switcher{display:flex;align-items:center;gap:4px;margin-left:12px}
+.lang-btn{padding:4px 10px;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--text-secondary);font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s}
+.lang-btn:hover{border-color:var(--primary);color:var(--primary)}
+.lang-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+@media(max-width:768px){.lang-switcher{margin-left:0;margin-top:8px;justify-content:center}}
+
 /* SECTION: blog */
 .blog-hero{padding:48px 0 32px;background:linear-gradient(135deg,#dbeafe 0%,#ede9fe 100%);text-align:center}
 .blog-hero h1{font-size:2rem;font-weight:800;margin-bottom:8px}
@@ -219,13 +226,17 @@ textarea.tool-input:focus,textarea.tool-output:focus{border-color:var(--primary)
 <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
 </button>
 <nav class="nav">
-<a href="#" onclick="navigateTo('home');return false" class="active" data-nav="home">Home</a>
-<a href="#" onclick="navigateTo('tool-json');return false" data-nav="tool-json">JSON Formatter</a>
-<a href="#" onclick="navigateTo('tool-base64');return false" data-nav="tool-base64">Base64</a>
-<a href="#" onclick="navigateTo('tool-shadow');return false" data-nav="tool-shadow">CSS Shadow</a>
-<a href="#" onclick="navigateTo('tool-gradient');return false" data-nav="tool-gradient">CSS Gradient</a>
-<a href="#" onclick="navigateTo('tool-markdown');return false" data-nav="tool-markdown">Markdown</a>
-<a href="#" onclick="navigateTo('blog');return false" data-nav="blog">Blog</a>
+<a href="#" onclick="navigateTo('home');return false" class="active" data-nav="home" data-i18n="nav_home">Home</a>
+<a href="#" onclick="navigateTo('tool-json');return false" data-nav="tool-json" data-i18n="nav_json">JSON Formatter</a>
+<a href="#" onclick="navigateTo('tool-base64');return false" data-nav="tool-base64" data-i18n="nav_base64">Base64</a>
+<a href="#" onclick="navigateTo('tool-shadow');return false" data-nav="tool-shadow" data-i18n="nav_shadow">CSS Shadow</a>
+<a href="#" onclick="navigateTo('tool-gradient');return false" data-nav="tool-gradient" data-i18n="nav_gradient">CSS Gradient</a>
+<a href="#" onclick="navigateTo('tool-markdown');return false" data-nav="tool-markdown" data-i18n="nav_markdown">Markdown</a>
+<a href="#" onclick="navigateTo('blog');return false" data-nav="blog" data-i18n="nav_blog">Blog</a>
+<div class="lang-switcher">
+<button class="lang-btn active" onclick="switchLang('en')" id="langEn">EN</button>
+<button class="lang-btn" onclick="switchLang('zh')" id="langZh">中文</button>
+</div>
 </nav>
 </div>
 </header>
@@ -234,48 +245,48 @@ textarea.tool-input:focus,textarea.tool-output:focus{border-color:var(--primary)
 <main id="page-home">
 <section class="hero">
 <div class="container">
-<h1>Free Online Developer Tools</h1>
-<p>Fast, reliable, and completely free. Format JSON, encode Base64, generate CSS shadows & gradients, and preview Markdown — all in your browser.</p>
+<h1 data-i18n="hero_title">Free Online Developer Tools</h1>
+<p data-i18n="hero_desc">Fast, reliable, and completely free. Format JSON, encode Base64, generate CSS shadows & gradients, and preview Markdown — all in your browser.</p>
 <div class="hero-search">
 <svg class="search-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-<input type="text" id="toolSearch" placeholder="Search tools... (e.g. JSON, Base64, CSS)" oninput="filterTools(this.value)">
+<input type="text" id="toolSearch" placeholder="Search tools... (e.g. JSON, Base64, CSS)" data-i18n-placeholder="search_placeholder" oninput="filterTools(this.value)">
 </div>
 </div>
 </section>
 <section class="section">
 <div class="container">
-<h2 class="section-title">All Tools</h2>
-<p class="section-desc">Click any tool to start using it instantly. No signup required.</p>
+<h2 class="section-title" data-i18n="section_all_tools">All Tools</h2>
+<p class="section-desc" data-i18n="section_desc">Click any tool to start using it instantly. No signup required.</p>
 <div class="tools-grid" id="toolsGrid">
 <a class="tool-card" onclick="navigateTo('tool-json');return false" data-tool="json formatter prettify minify">
 <div class="tool-icon icon-json">{ }</div>
-<h3>JSON Formatter</h3>
-<p>Format, validate, and minify JSON data. Pretty-print messy JSON with syntax highlighting.</p>
+<h3 data-i18n="tool_json_title">JSON Formatter</h3>
+<p data-i18n="tool_json_desc">Format, validate, and minify JSON data. Pretty-print messy JSON with syntax highlighting.</p>
 </a>
 <a class="tool-card" onclick="navigateTo('tool-base64');return false" data-tool="base64 encode decode">
 <div class="tool-icon icon-base64">B64</div>
-<h3>Base64 Encoder/Decoder</h3>
-<p>Encode text to Base64 or decode Base64 strings. Supports UTF-8 and file-safe encoding.</p>
+<h3 data-i18n="tool_base64_title">Base64 Encoder/Decoder</h3>
+<p data-i18n="tool_base64_desc">Encode text to Base64 or decode Base64 strings. Supports UTF-8 and file-safe encoding.</p>
 </a>
 <a class="tool-card" onclick="navigateTo('tool-shadow');return false" data-tool="css box shadow generator">
 <div class="tool-icon icon-shadow">◐</div>
-<h3>CSS Box Shadow Generator</h3>
-<p>Visually create CSS box-shadow effects with real-time preview. Copy ready-to-use code.</p>
+<h3 data-i18n="tool_shadow_title">CSS Box Shadow Generator</h3>
+<p data-i18n="tool_shadow_desc">Visually create CSS box-shadow effects with real-time preview. Copy ready-to-use code.</p>
 </a>
 <a class="tool-card" onclick="navigateTo('tool-gradient');return false" data-tool="css gradient generator linear radial">
 <div class="tool-icon icon-gradient">◑</div>
-<h3>CSS Gradient Generator</h3>
-<p>Build beautiful linear and radial CSS gradients. Adjust colors, angles, and stops visually.</p>
+<h3 data-i18n="tool_gradient_title">CSS Gradient Generator</h3>
+<p data-i18n="tool_gradient_desc">Build beautiful linear and radial CSS gradients. Adjust colors, angles, and stops visually.</p>
 </a>
 <a class="tool-card" onclick="navigateTo('tool-markdown');return false" data-tool="markdown editor preview converter">
 <div class="tool-icon icon-markdown">M↓</div>
-<h3>Markdown Editor</h3>
-<p>Write Markdown with live preview. Supports headings, lists, code blocks, tables, and more.</p>
+<h3 data-i18n="tool_markdown_title">Markdown Editor</h3>
+<p data-i18n="tool_markdown_desc">Write Markdown with live preview. Supports headings, lists, code blocks, tables, and more.</p>
 </a>
 <a class="tool-card" onclick="navigateTo('tool-html');return false" data-tool="html entity encoder decoder escape">
 <div class="tool-icon icon-html">&lt;/&gt;</div>
-<h3>HTML Entity Encoder</h3>
-<p>Encode and decode HTML entities. Escape special characters for safe HTML rendering.</p>
+<h3 data-i18n="tool_html_title">HTML Entity Encoder</h3>
+<p data-i18n="tool_html_desc">Encode and decode HTML entities. Escape special characters for safe HTML rendering.</p>
 </a>
 </div>
 </div>
@@ -291,10 +302,10 @@ textarea.tool-input:focus,textarea.tool-output:focus{border-color:var(--primary)
 </div>
 <div class="tool-body fade-in">
 <div class="tool-actions">
-<button class="btn btn-primary" data-primary-action onclick="formatJSON()">Format / Beautify</button>
-<button class="btn btn-secondary" onclick="minifyJSON()">Minify</button>
-<button class="btn btn-secondary" onclick="clearTool('json')">Clear</button>
-<button class="btn btn-secondary" onclick="loadSample('json')">Load Sample</button>
+<button class="btn btn-primary" data-primary-action onclick="formatJSON()" data-i18n="btn_format">Format / Beautify</button>
+<button class="btn btn-secondary" onclick="minifyJSON()" data-i18n="btn_minify">Minify</button>
+<button class="btn btn-secondary" onclick="clearTool('json')" data-i18n="btn_clear">Clear</button>
+<button class="btn btn-secondary" onclick="loadSample('json')" data-i18n="btn_load_sample">Load Sample</button>
 </div>
 <div class="split-pane">
 <div><div class="pane-label">Input</div><textarea class="tool-input" id="jsonInput" placeholder='Paste your JSON here, e.g. {"name":"John","age":30}'></textarea></div>
@@ -314,10 +325,10 @@ textarea.tool-input:focus,textarea.tool-output:focus{border-color:var(--primary)
 </div>
 <div class="tool-body fade-in">
 <div class="tool-actions">
-<button class="btn btn-primary" data-primary-action onclick="encodeBase64()">Encode</button>
-<button class="btn btn-primary" onclick="decodeBase64()">Decode</button>
-<button class="btn btn-secondary" onclick="clearTool('base64')">Clear</button>
-<button class="btn btn-secondary" onclick="loadSample('base64')">Load Sample</button>
+<button class="btn btn-primary" data-primary-action onclick="encodeBase64()" data-i18n="btn_encode">Encode</button>
+<button class="btn btn-primary" onclick="decodeBase64()" data-i18n="btn_decode">Decode</button>
+<button class="btn btn-secondary" onclick="clearTool('base64')" data-i18n="btn_clear">Clear</button>
+<button class="btn btn-secondary" onclick="loadSample('base64')" data-i18n="btn_load_sample">Load Sample</button>
 </div>
 <div class="split-pane">
 <div><div class="pane-label">Input</div><textarea class="tool-input" id="base64Input" placeholder="Enter text to encode, or Base64 string to decode..."></textarea></div>
@@ -348,7 +359,7 @@ textarea.tool-input:focus,textarea.tool-output:focus{border-color:var(--primary)
 </div>
 <div>
 <div class="preview-box" id="shadowPreviewBox"><div class="preview-target" id="shadowPreviewTarget"></div></div>
-<div class="code-output"><button class="copy-btn" onclick="copyCode('shadowCode')">Copy</button><code id="shadowCode"></code></div>
+<div class="code-output"><button class="copy-btn" onclick="copyCode('shadowCode')" data-i18n="btn_copy">Copy</button><code id="shadowCode"></code></div>
 </div>
 </div>
 </div>
@@ -386,7 +397,7 @@ textarea.tool-input:focus,textarea.tool-output:focus{border-color:var(--primary)
 </div>
 <div>
 <div class="gradient-preview preview-box" id="gradientPreview"></div>
-<div class="code-output"><button class="copy-btn" onclick="copyCode('gradientCode')">Copy</button><code id="gradientCode"></code></div>
+<div class="code-output"><button class="copy-btn" onclick="copyCode('gradientCode')" data-i18n="btn_copy">Copy</button><code id="gradientCode"></code></div>
 </div>
 </div>
 </div>
@@ -411,7 +422,7 @@ textarea.tool-input:focus,textarea.tool-output:focus{border-color:var(--primary)
 <button class="btn btn-secondary btn-sm" onclick="insertMd('`','code')">Code</button>
 <button class="btn btn-secondary btn-sm" onclick="insertMd('> ','quote')">Quote</button>
 <button class="btn btn-secondary" onclick="loadSample('markdown')">Load Sample</button>
-<button class="btn btn-secondary" onclick="clearTool('markdown')">Clear</button>
+<button class="btn btn-secondary" onclick="clearTool('markdown')" data-i18n="btn_clear">Clear</button>
 </div>
 <div class="split-pane">
 <div>
@@ -436,9 +447,9 @@ textarea.tool-input:focus,textarea.tool-output:focus{border-color:var(--primary)
 </div>
 <div class="tool-body fade-in">
 <div class="tool-actions">
-<button class="btn btn-primary" data-primary-action onclick="encodeHtml()">Encode</button>
-<button class="btn btn-primary" onclick="decodeHtml()">Decode</button>
-<button class="btn btn-secondary" onclick="clearTool('html')">Clear</button>
+<button class="btn btn-primary" data-primary-action onclick="encodeHtml()" data-i18n="btn_encode">Encode</button>
+<button class="btn btn-primary" onclick="decodeHtml()" data-i18n="btn_decode">Decode</button>
+<button class="btn btn-secondary" onclick="clearTool('html')" data-i18n="btn_clear">Clear</button>
 </div>
 <div class="split-pane">
 <div><div class="pane-label">Input</div><textarea class="tool-input" id="htmlInput" placeholder='Enter HTML to encode, e.g. <div class="test">Hello</div>'></textarea></div>
@@ -489,20 +500,20 @@ textarea.tool-input:focus,textarea.tool-output:focus{border-color:var(--primary)
 <h2>Contact Us</h2>
 </div>
 <div class="legal-content fade-in">
-<h1>Contact Us</h1>
-<p class="updated">We'd love to hear from you. Send us a message below.</p>
+<h1 data-i18n="contact_title">Contact Us</h1>
+<p class="updated" data-i18n="contact_subtitle">We'd love to hear from you. Send us a message below.</p>
 <div class="contact-form">
-<div class="form-group"><label for="contactName">Name</label><input type="text" id="contactName" placeholder="Your name"></div>
-<div class="form-group"><label for="contactEmail">Email</label><input type="email" id="contactEmail" placeholder="your@email.com"></div>
-<div class="form-group"><label for="contactSubject">Subject</label><input type="text" id="contactSubject" placeholder="What's this about?"></div>
-<div class="form-group"><label for="contactMessage">Message</label><textarea id="contactMessage" placeholder="Your message..."></textarea></div>
-<button class="btn btn-primary" onclick="submitContact()">Send Message</button>
+<div class="form-group"><label for="contactName" data-i18n="contact_name">Name</label><input type="text" id="contactName" placeholder="Your name" data-i18n-placeholder="contact_name_ph"></div>
+<div class="form-group"><label for="contactEmail" data-i18n="contact_email">Email</label><input type="email" id="contactEmail" placeholder="your@email.com"></div>
+<div class="form-group"><label for="contactSubject" data-i18n="contact_subject">Subject</label><input type="text" id="contactSubject" placeholder="What's this about?" data-i18n-placeholder="contact_subject_ph"></div>
+<div class="form-group"><label for="contactMessage" data-i18n="contact_message">Message</label><textarea id="contactMessage" placeholder="Your message..." data-i18n-placeholder="contact_message_ph"></textarea></div>
+<button class="btn btn-primary" onclick="submitContact()" data-i18n="btn_send">Send Message</button>
 <div class="status-msg" id="contactStatus"></div>
 </div>
 <div style="margin-top:32px">
-<h2>Other Ways to Reach Us</h2>
-<p><strong>Email:</strong> contact@freeweb.eu.org</p>
-<p><strong>Response Time:</strong> We typically respond within 24-48 hours.</p>
+<h2 data-i18n="contact_other">Other Ways to Reach Us</h2>
+<p><strong data-i18n="contact_email">Email:</strong> scandylau@email.com</p>
+<p><strong data-i18n="contact_response">Response Time:</strong> <span data-i18n="contact_response_text">We typically respond within 24-48 hours.</span></p>
 </div>
 </div>
 </div>
@@ -646,28 +657,28 @@ textarea.tool-input:focus,textarea.tool-output:focus{border-color:var(--primary)
 <div class="footer-grid">
 <div>
 <h4>FreeWeb Tools</h4>
-<p>Free online developer tools. Fast, reliable, and privacy-friendly. All processing happens in your browser — your data never leaves your machine.</p>
+<p data-i18n="footer_desc">Free online developer tools. Fast, reliable, and privacy-friendly. All processing happens in your browser — your data never leaves your machine.</p>
 </div>
 <div>
-<h4>Tools</h4>
-<a href="#" onclick="navigateTo('tool-json');return false">JSON Formatter</a>
-<a href="#" onclick="navigateTo('tool-base64');return false">Base64 Encoder</a>
-<a href="#" onclick="navigateTo('tool-shadow');return false">CSS Shadow Generator</a>
-<a href="#" onclick="navigateTo('tool-gradient');return false">CSS Gradient Generator</a>
-<a href="#" onclick="navigateTo('tool-markdown');return false">Markdown Editor</a>
-<a href="#" onclick="navigateTo('tool-html');return false">HTML Entity Encoder</a>
+<h4 data-i18n="footer_tools">Tools</h4>
+<a href="#" onclick="navigateTo('tool-json');return false" data-i18n="nav_json">JSON Formatter</a>
+<a href="#" onclick="navigateTo('tool-base64');return false" data-i18n="nav_base64">Base64 Encoder</a>
+<a href="#" onclick="navigateTo('tool-shadow');return false" data-i18n="nav_shadow">CSS Shadow Generator</a>
+<a href="#" onclick="navigateTo('tool-gradient');return false" data-i18n="nav_gradient">CSS Gradient Generator</a>
+<a href="#" onclick="navigateTo('tool-markdown');return false" data-i18n="nav_markdown">Markdown Editor</a>
+<a href="#" onclick="navigateTo('tool-html');return false" data-i18n="nav_html">HTML Entity Encoder</a>
 </div>
 <div>
-<h4>Company</h4>
-<a href="#" onclick="navigateTo('about');return false">About Us</a>
-<a href="#" onclick="navigateTo('blog');return false">Blog</a>
-<a href="#" onclick="navigateTo('contact');return false">Contact</a>
+<h4 data-i18n="footer_company">Company</h4>
+<a href="#" onclick="navigateTo('about');return false" data-i18n="nav_about">About Us</a>
+<a href="#" onclick="navigateTo('blog');return false" data-i18n="nav_blog">Blog</a>
+<a href="#" onclick="navigateTo('contact');return false" data-i18n="nav_contact">Contact</a>
 </div>
 <div>
-<h4>Legal</h4>
-<a href="#" onclick="navigateTo('privacy');return false">Privacy Policy</a>
-<a href="#" onclick="navigateTo('terms');return false">Terms of Service</a>
-<a href="#" onclick="navigateTo('disclaimer');return false">Disclaimer</a>
+<h4 data-i18n="footer_legal">Legal</h4>
+<a href="#" onclick="navigateTo('privacy');return false" data-i18n="nav_privacy">Privacy Policy</a>
+<a href="#" onclick="navigateTo('terms');return false" data-i18n="nav_terms">Terms of Service</a>
+<a href="#" onclick="navigateTo('disclaimer');return false" data-i18n="nav_disclaimer">Disclaimer</a>
 </div>
 </div>
 <div class="footer-bottom">
@@ -1709,8 +1720,96 @@ function submitContact() {
   document.getElementById('contactMessage').value = '';
 }
 
+/* SECTION: i18n */
+let currentLang = 'en';
+const i18n = {
+  en: {
+    nav_home: 'Home', nav_json: 'JSON Formatter', nav_base64: 'Base64', nav_shadow: 'CSS Shadow',
+    nav_gradient: 'CSS Gradient', nav_markdown: 'Markdown', nav_blog: 'Blog',
+    hero_title: 'Free Online Developer Tools',
+    hero_desc: 'Fast, reliable, and completely free. Format JSON, encode Base64, generate CSS shadows & gradients, and preview Markdown — all in your browser.',
+    search_placeholder: 'Search tools... (e.g. JSON, Base64, CSS)',
+    section_all_tools: 'All Tools',
+    section_desc: 'Click any tool to start using it instantly. No signup required.',
+    tool_json_title: 'JSON Formatter', tool_json_desc: 'Format, validate, and minify JSON data. Pretty-print messy JSON with syntax highlighting.',
+    tool_base64_title: 'Base64 Encoder/Decoder', tool_base64_desc: 'Encode text to Base64 or decode Base64 strings. Supports UTF-8 and file-safe encoding.',
+    tool_shadow_title: 'CSS Box Shadow Generator', tool_shadow_desc: 'Visually create CSS box-shadow effects with real-time preview. Copy ready-to-use code.',
+    tool_gradient_title: 'CSS Gradient Generator', tool_gradient_desc: 'Build beautiful linear and radial CSS gradients. Adjust colors, angles, and stops visually.',
+    tool_markdown_title: 'Markdown Editor', tool_markdown_desc: 'Write Markdown with live preview. Supports headings, lists, code blocks, tables, and more.',
+    tool_html_title: 'HTML Entity Encoder', tool_html_desc: 'Encode and decode HTML entities. Escape special characters for safe HTML rendering.',
+    btn_format: 'Format / Beautify', btn_minify: 'Minify', btn_clear: 'Clear', btn_load_sample: 'Load Sample',
+    btn_encode: 'Encode', btn_decode: 'Decode', btn_copy: 'Copy', btn_send: 'Send Message',
+    label_input: 'Input', label_output: 'Output',
+    footer_tools: 'Tools', footer_company: 'Company', footer_legal: 'Legal',
+    footer_desc: 'Free online developer tools. Fast, reliable, and privacy-friendly. All processing happens in your browser — your data never leaves your machine.',
+    nav_about: 'About Us', nav_blog: 'Blog', nav_contact: 'Contact', nav_privacy: 'Privacy Policy', nav_terms: 'Terms of Service', nav_disclaimer: 'Disclaimer', nav_html: 'HTML Entity Encoder',
+    about: 'About Us', contact: 'Contact', privacy: 'Privacy Policy', terms: 'Terms of Service', disclaimer: 'Disclaimer',
+    blog_title: 'FreeWeb Tools Blog', blog_desc: 'Tutorials, tips and best practices for web developers. Learn how to use JSON, Base64, CSS effects, Markdown and more — with hands-on examples.',
+    blog_all_articles: '← All Articles',
+    contact_title: 'Contact Us', contact_subtitle: "We'd love to hear from you. Send us a message below.", contact_name: 'Name', contact_name_ph: 'Your name', contact_email: 'Email', contact_subject: 'Subject', contact_subject_ph: "What's this about?", contact_message: 'Message', contact_message_ph: 'Your message...',
+    contact_other: 'Other Ways to Reach Us', contact_response: 'Response Time',
+    contact_response_text: 'We typically respond within 24-48 hours.',
+    back: '← Back',
+    copied: 'Copied to clipboard!'
+  },
+  zh: {
+    nav_home: '首页', nav_json: 'JSON 格式化', nav_base64: 'Base64', nav_shadow: 'CSS 阴影',
+    nav_gradient: 'CSS 渐变', nav_markdown: 'Markdown', nav_blog: '博客',
+    hero_title: '免费在线开发者工具',
+    hero_desc: '快速、可靠、完全免费。格式化 JSON、编解码 Base64、生成 CSS 阴影和渐变、预览 Markdown — 全部在浏览器中完成。',
+    search_placeholder: '搜索工具...（如 JSON、Base64、CSS）',
+    section_all_tools: '全部工具',
+    section_desc: '点击任意工具即可立即使用，无需注册。',
+    tool_json_title: 'JSON 格式化器', tool_json_desc: '格式化、验证和压缩 JSON 数据。美化显示混乱的 JSON。',
+    tool_base64_title: 'Base64 编解码器', tool_base64_desc: '将文本编码为 Base64 或解码 Base64 字符串。支持 UTF-8 编码。',
+    tool_shadow_title: 'CSS 阴影生成器', tool_shadow_desc: '可视化创建 CSS box-shadow 效果，实时预览。复制即用代码。',
+    tool_gradient_title: 'CSS 渐变生成器', tool_gradient_desc: '创建精美的线性和径向 CSS 渐变。可视化调整颜色、角度和色标。',
+    tool_markdown_title: 'Markdown 编辑器', tool_markdown_desc: '实时预览的 Markdown 编辑器。支持标题、列表、代码块、表格等。',
+    tool_html_title: 'HTML 实体编码器', tool_html_desc: '编码和解码 HTML 实体。转义特殊字符以确保安全渲染。',
+    btn_format: '格式化 / 美化', btn_minify: '压缩', btn_clear: '清除', btn_load_sample: '加载示例',
+    btn_encode: '编码', btn_decode: '解码', btn_copy: '复制', btn_send: '发送消息',
+    label_input: '输入', label_output: '输出',
+    footer_tools: '工具', footer_company: '关于', footer_legal: '法律',
+    footer_desc: '免费在线开发者工具。快速、可靠、隐私友好。所有处理都在浏览器中完成 — 您的数据不会离开您的设备。',
+    nav_about: '关于我们', nav_blog: '博客', nav_contact: '联系我们', nav_privacy: '隐私政策', nav_terms: '服务条款', nav_disclaimer: '免责声明', nav_html: 'HTML 实体编码器',
+    about: '关于我们', contact: '联系我们', privacy: '隐私政策', terms: '服务条款', disclaimer: '免责声明',
+    blog_title: 'FreeWeb 工具博客', blog_desc: '面向开发者的教程、技巧和最佳实践。学习如何使用 JSON、Base64、CSS 特效、Markdown 等 — 配合实际示例。',
+    blog_all_articles: '← 所有文章',
+    contact_title: '联系我们', contact_subtitle: '我们很乐意听取您的意见，请在下方留言。', contact_name: '姓名', contact_name_ph: '您的姓名', contact_email: '邮箱', contact_subject: '主题', contact_subject_ph: '关于什么？', contact_message: '消息', contact_message_ph: '您的消息...',
+    contact_other: '其他联系方式', contact_response: '响应时间',
+    contact_response_text: '我们通常在 24-48 小时内回复。',
+    back: '← 返回',
+    copied: '已复制到剪贴板！'
+  }
+};
+
+function switchLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('freeweb_lang', lang);
+  document.getElementById('langEn').classList.toggle('active', lang === 'en');
+  document.getElementById('langZh').classList.toggle('active', lang === 'zh');
+  document.documentElement.lang = lang;
+  // Update all elements with data-i18n
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (i18n[lang][key]) el.textContent = i18n[lang][key];
+  });
+  // Update placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (i18n[lang][key]) el.placeholder = i18n[lang][key];
+  });
+}
+
+function initLang() {
+  const saved = localStorage.getItem('freeweb_lang');
+  const browserLang = navigator.language.startsWith('zh') ? 'zh' : 'en';
+  switchLang(saved || browserLang);
+}
+
 /* SECTION: init */
 window.addEventListener('DOMContentLoaded', () => {
+  initLang();
   const hash = location.hash.replace('#', '');
   if (hash && pages.includes(hash)) {
     navigateTo(hash);
